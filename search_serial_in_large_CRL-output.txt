@@ -1,0 +1,68 @@
+****** INDEXING CRL: www.sk.ee-crl.crl
+
+*** Some information about the CRL
+crl_not_valid_before:  2014-08-15 09:42:19
+crl_not_valid_after:   2014-11-23 09:42:19
+crl_signature:         4ea0be0063cffed880f5a1cafa3a5a ...  256  Bytes
+crl_signed_content:    (4, 8, 511) 508 Bytes
+
+*** The CRL lists 8 certificates.
+serial:  999183360   position: (155, 157, 191)
+serial:  1043934336   position: (266, 268, 302)
+serial:  1084184741   position: (414, 416, 450)
+serial:  1167825894   position: (192, 194, 228)
+serial:  1018438612   position: (340, 342, 376)
+serial:  1018438937   position: (377, 379, 413)
+serial:  1018259643   position: (303, 305, 339)
+serial:  1167830238   position: (229, 231, 265)
+
+*** Search in CRL for serial no: 1018438612
+
+*** SERIAL FOUND IN LIST!:
+**      Revoked certificat data
+- Certificat serial no:  1018438612
+- Decoded ASN1 data:
+  0  35: SEQUENCE {
+  2   4:   INTEGER 1018438612
+  8  13:   UTCTime 01/12/2009 10:10:04 GMT
+ 23  12:   SEQUENCE {
+ 25  10:     SEQUENCE {
+ 27   3:       OBJECT IDENTIFIER cRLReason (2 5 29 21)
+ 32   3:       OCTET STRING 0A 01 05
+       :       }
+       :     }
+       :   }
+
+
+
+****** INDEXING CRL: www.sk.ee-esteid2011.crl
+
+*** Some information about the CRL
+crl_not_valid_before:  2014-11-08 02:22:05
+crl_not_valid_after:   2014-11-08 14:22:05
+crl_signature:         a3659dab04a25d7e128b836fcbe844 ...  256  Bytes
+crl_signed_content:    (6, 12, 19995446) 19995441 Bytes
+
+*** The CRL lists 266616 certificates.
+
+*** Search in CRL for serial no: 131917818486436565990004418739006228479
+
+*** SERIAL FOUND IN LIST!:
+**      Revoked certificat data
+- Certificat serial no:  131917818486436565990004418739006228479
+- Decoded ASN1 data:
+  0  73: SEQUENCE {
+  2  16:   INTEGER 63 3E 72 9B 4B BD B7 7F 51 24 F2 20 A8 AA 47 FF
+ 20  13:   UTCTime 18/03/2014 14:12:25 GMT
+ 35  38:   SEQUENCE {
+ 37  10:     SEQUENCE {
+ 39   3:       OBJECT IDENTIFIER cRLReason (2 5 29 21)
+ 44   3:       OCTET STRING 0A 01 04
+       :       }
+ 49  24:     SEQUENCE {
+ 51   3:       OBJECT IDENTIFIER invalidityDate (2 5 29 24)
+ 56  17:       OCTET STRING 18 0F 32 30 31 34 30 33 31 38 31 34 31 32 32 35 5A
+       :       }
+       :     }
+       :   }
+

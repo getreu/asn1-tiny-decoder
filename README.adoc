@@ -1,0 +1,191 @@
+= Tiny and fast ASN.1 decoder in Python
+Jens Getreu
+v1.0, 8.11.2014
+:icons: font
+:numbered:
+:toc:
+:pagenums:
+:source-highlighter: coderay
+
+link:asn1tinydecoder.py[`asn1tinydecoder.py`]
+is a simple and fast ASN.1 decoder without external libraries designed 
+to parse large files.
+
+There is a good 
+http://pyasn1.sourceforge.net/["`Pyasn1`" ASN.1 python library]
+out there. It is very complete, but learning how to use it is time
+consuming. Furthermore Pyasn1 is not designed to parse large files.
+This why I wrote this tiny ASN.1 decoder. It's design goal was 
+to be as fast as possible (with Python 2). 
+footnote:[Python 3 would have been a better choice for `asn1tinedecoder`
+because of its `bytes` type. Any volunteer to port towards Python 3?]
+
+A practical application can be found in 
+<<Search serial in large certificate revocation lists>>:
+This program creates an index allowing fast search in big ASN.1 data
+structures.
+
+Html and Pdf renditions of this document can be found on 
+http://getreu.net/public/downloads/software/ASN1_decoder/[getreu.net].
+The source code is hosted on https://github.com/getreu/asn1-tiny-decoder[Github].
+
+
+
+
+== The ASN1 decoder 
+
+
+=== Decoder API
+
+The decoder API consists of 7 functions documented below.
+
+.ASN1 node
+
+In link:asn1tinydecoder.py[`asn1tinydecoder.py`] a "`node`" is a pointer to an 
+ASN.1 chunk of Bytes containing 3 parts:
+
+     [type Byte, length Bytes, value Bytes] 
+
+A node represented by a Python tuple:
+
+     (ixs, ixf, ixl)
+     
+
+`ixs`:: Points to the type Byte which is the first Byte of the chunk.
+`ixf`:: Points to the first value Byte.
+`ixl`:: Points to the last value Byte which is the last Byte of the 
+        chunk.
+
+.Navigate
+
+In order to browse through ASN.1 tree structures you need only
+3 functions to navigate:
+
+NOTE: All functions of link:asn1tinydecoder.py[`asn1tinydecoder.py`] are stateless.  
+
+
+
+`asn1_node_root()`:: Points to the first node in the tree structure. 
+This is the root node.
+`asn1_node_next()`:: Skips and points to the next node. 
+`asn1_node_first_child()`:: Opens a ASN1 _sequence_ or _set_ and points 
+          to the first node inside the _sequence_ or _set_.  
+
+.Control loops
+
+
+`asn1_node_is_child_of()`:: Controls loops over lists
+i.e. _sequence_ or _set_. 
+It returns `true` if one ASN1 chunk is inside another chunk.
+footnote:[The function tests if the two nodes are in a parent-child or
+grand parent-child relation. The order of the two parameters does not 
+matter.]  
+See example in function `extract_crl_info()` in 
+<<ASN1 decoder usage example>>. 
+
+
+
+
+.Accessing node's data  +
+Once you found the right node you can access the node's data with:
+
+
+`asn1_get_value()`:: Gets the bytestring of value Bytes of the pointed node.
+WARNING: There is no check if the node contains the data type you expect. 
+If you can please use `asn1_get_value_of_type()` instead.
+
+`asn1_get_value_of_type()`:: Same as the above, but first checks
+	if the pointed node is of a given type.
+	Recognized types are: 	
+	`BOOLEAN`, 
+	`INTEGER`, 
+	`BIT STRING`,        
+	`OCTET STRING`,      
+	`NULL`,              
+	`OBJECT IDENTIFIER`, 
+	`SEQUENCE`,          
+	`SET`,               
+	`PrintableString`,   
+	`IA5String`,         
+	`UTCTime`,        
+	`ENUMERATED`,
+	`UTF8String`, 
+	`PrintableString`.
+`asn1_get_all()`:: Gets the bytes of the whole node i.e. type Byte, 
+length Bytes and value Bytes in one string.
+
+NOTE: All data is returned in raw format exactly as it is stored in the
+ASN.1 chunk. You need to convert it yourself.
+footnote:[The most commonly used converters `bitstr_to_bytestr()`
+and `bytestr_to_int` are provided by 
+link:asn1tinydecoder.py[`asn1tinydecoder.py`].]
+
+
+
+=== Decoder source code
+
+Download `asn1tinydecoder.py` link:asn1tinydecoder.py[here].
+
+
+.ASN1 decoder source code
+[source,python]
+----
+include::asn1tinydecoder.py[lines=8..-1]
+----
+
+
+<<<
+
+== ASN1 decoder usage example
+
+CRL lists can be hundreds of MB long. The (otherwise very good) 
+http://pyasn1.sourceforge.net/[ASN1 python library] 
+takes hours to run through such large structures. 
+`asn1tinydecoder` does the same in some seconds.
+
+See the source code below for examples how the 
+decoder can be used. 
+
+
+[[search-serial]]
+=== Search serial in large certificate revocation lists
+
+
+link:search_serial_in_large_CRL.py[`search_serial_in_large_CRL.py`]
+searches serials in large CRLs.
+
+It runs through large ASN1 structures creating an index
+dictionary `serials_idx`. There it saves certificate serials and 
+pointers to corresponding certificate data chunks 
+(see function `extract_crl_info()`).
+
+The dictionary is then used to determine
+if a given serial is revoked or not. This index allows fast search.
+
+The function `search_certificate()` prints out the corresponding 
+revoked certificate data.
+
+.Performance
+
+Indexing a 19MB CRL with 266616 certificates takes less then 6 seconds 
+on my netbook with _AMD E-450_ CPU.
+
+
+
+==== Source code
+
+
+[source,python]
+----
+include::search_serial_in_large_CRL.py[lines=8..-1]
+----
+
+
+
+==== Program output 
+
+----
+include::search_serial_in_large_CRL-output.txt[]
+----
+
+
