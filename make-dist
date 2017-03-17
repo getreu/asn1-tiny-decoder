@@ -1,0 +1,18 @@
+#!/bin/sh
+# Author: Jens Getreu
+
+package () {
+
+OutDirName="./build/dist/"
+mkdir -p "$OutDirName"
+ZipBaseName=$(basename "$2" ".zip")
+ZipFileName="$OutDirName/$ZipBaseName.zip"
+mkdir -p "$DownloadDir"
+
+
+
+zip -r "$ZipFileName" "$1" 
+}
+
+
+package "source/dist" "asn1-tiny-decoder.zip"

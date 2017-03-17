@@ -1,12 +1,17 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-
-# Apache
-.htaccess
-
-# renditions
-*.html
+*.swp
+*.swo
 *.pdf
+*.html
+*.log
+*.tex
+*.toc
+*.aux
+*.out
+**.cache
+*.xml
+*.xsl
+*.fo
+!docbook-xsl/
+.asciidoctor/
+build/
+
