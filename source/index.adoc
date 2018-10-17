@@ -7,7 +7,7 @@ v1.0, 8.11.2014
 :pagenums:
 :source-highlighter: coderay
 
-link:data/asn1tinydecoder.py[`asn1tinydecoder.py`]
+link:https://blog.getreu.net/_downloads/asn1-tiny-decoder.zip[`asn1tinydecoder.py`]
 is a simple and fast ASN.1 decoder without external libraries designed 
 to parse large files.
 
@@ -38,7 +38,7 @@ The decoder API consists of 7 functions documented below.
 
 .ASN.1 node
 
-In link:data/asn1tinydecoder.py[`asn1tinydecoder.py`] a "`node`" is a pointer to an 
+In link:https://blog.getreu.net/_downloads/asn1-tiny-decoder.zip[`asn1tinydecoder.py`] a "`node`" is a pointer to an 
 ASN.1 chunk of Bytes containing 3 parts:
 
      [type Byte, length Bytes, value Bytes] 
@@ -58,7 +58,7 @@ A node represented by a Python tuple:
 In order to browse through ASN.1 tree structures you need only
 3 functions to navigate:
 
-NOTE: All functions of link:data/asn1tinydecoder.py[`asn1tinydecoder.py`] are stateless.  
+NOTE: All functions of link:https://blog.getreu.net/_downloads/asn1-tiny-decoder.zip[`asn1tinydecoder.py`] are stateless.  
 
 
 
@@ -115,13 +115,13 @@ NOTE: All data is returned in raw format exactly as it is stored in the
 ASN.1 chunk. You need to convert it yourself.
 footnote:[The most commonly used converters `bitstr_to_bytestr()`
 and `bytestr_to_int` are provided by 
-link:data/asn1tinydecoder.py[`asn1tinydecoder.py`].]
+link:https://blog.getreu.net/_downloads/asn1-tiny-decoder.zip[`asn1tinydecoder.py`].]
 
 
 
 === Decoder source code
 
-Download `asn1tinydecoder.py` link:data/asn1tinydecoder.py[here].
+Download `asn1tinydecoder.py` link:/_downloads/asn1-tiny-decoder.zip[here].
 
 
 .ASN.1 decoder source code
@@ -148,7 +148,7 @@ decoder can be used.
 === Search serial in large certificate revocation lists
 
 
-link:data/search_serial_in_large_CRL.py[`search_serial_in_large_CRL.py`]
+link:/_downloads/asn1-tiny-decoder.zip[`search_serial_in_large_CRL.py`]
 searches serials in large CRLs.
 
 It runs through large ASN.1 structures creating an index
