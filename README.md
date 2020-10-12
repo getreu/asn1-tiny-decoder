@@ -10,7 +10,7 @@ A widely used library for encoding and decoding ASN1 in python is
 [Pyasn1](http://pyasn1.sourceforge.net/). The implementation covers many aspects
 of ASN1, but the API is very complex and hard to learn.  Furthermore Pyasn1 is
 not designed to parse large files. This why I wrote this tiny ASN.1 decoder.
-It's design goal was to be as fast as possible (with Python 2).[^1]
+It's design goal was to be as fast as possible.
 
 A practical application can be found in
 [search_serial_in_large_CRL.py](./source/data/search_serial_in_large_CRL.py):
@@ -19,6 +19,3 @@ structures.
 
 The source code is hosted on
 [Github](https://github.com/getreu/asn1-tiny-decoder).
-
-[^1]: Python 3 would have been a better choice for `asn1tinedecoder` because of
-  its `bytes` type. Any volunteer to port to Python 3?
