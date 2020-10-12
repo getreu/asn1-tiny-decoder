@@ -66,8 +66,6 @@ def asn1_get_value_of_type(der, indices, asn1_type):
         "UTF8String": 0x0C,
     }
     if asn1_type_table[asn1_type] != der[ixs]:
-        print(asn1_type_table[asn1_type])
-        print(der[ixs])
         raise ValueError(
             "Error: Expected type was: "
             + hex(asn1_type_table[asn1_type])
