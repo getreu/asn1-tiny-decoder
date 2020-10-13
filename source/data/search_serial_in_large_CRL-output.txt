@@ -8,20 +8,21 @@ crl_signed_content:    (4, 8, 511) 508 Bytes
 
 *** The CRL lists 8 certificates.
 serial:  999183360   position: (155, 157, 191)
-serial:  1043934336   position: (266, 268, 302)
-serial:  1084184741   position: (414, 416, 450)
 serial:  1167825894   position: (192, 194, 228)
+serial:  1167830238   position: (229, 231, 265)
+serial:  1043934336   position: (266, 268, 302)
+serial:  1018259643   position: (303, 305, 339)
 serial:  1018438612   position: (340, 342, 376)
 serial:  1018438937   position: (377, 379, 413)
-serial:  1018259643   position: (303, 305, 339)
-serial:  1167830238   position: (229, 231, 265)
+serial:  1084184741   position: (414, 416, 450)
 
 *** Search in CRL for serial no: 1018438612
 
 *** SERIAL FOUND IN LIST!:
-**      Revoked certificat data
-- Certificat serial no:  1018438612
+**      Revoked certificate data
+- Certificate serial no:  1018438612
 - Decoded ASN1 data:
+Warning: Input is non-seekable, some functionality has been disabled.
   0  35: SEQUENCE {
   2   4:   INTEGER 1018438612
   8  13:   UTCTime 01/12/2009 10:10:04 GMT
@@ -32,6 +33,9 @@ serial:  1167830238   position: (229, 231, 265)
        :       }
        :     }
        :   }
+
+0 warnings, 0 errors.
+
 
 
 
@@ -48,9 +52,10 @@ crl_signed_content:    (6, 12, 19995446) 19995441 Bytes
 *** Search in CRL for serial no: 131917818486436565990004418739006228479
 
 *** SERIAL FOUND IN LIST!:
-**      Revoked certificat data
-- Certificat serial no:  131917818486436565990004418739006228479
+**      Revoked certificate data
+- Certificate serial no:  131917818486436565990004418739006228479
 - Decoded ASN1 data:
+Warning: Input is non-seekable, some functionality has been disabled.
   0  73: SEQUENCE {
   2  16:   INTEGER 63 3E 72 9B 4B BD B7 7F 51 24 F2 20 A8 AA 47 FF
  20  13:   UTCTime 18/03/2014 14:12:25 GMT
@@ -65,4 +70,7 @@ crl_signed_content:    (6, 12, 19995446) 19995441 Bytes
        :       }
        :     }
        :   }
+
+0 warnings, 0 errors.
+
 
