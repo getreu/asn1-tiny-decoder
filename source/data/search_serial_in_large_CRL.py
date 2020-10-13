@@ -135,7 +135,7 @@ def search_certificate(crl_der, serial, dictionary):
 
 def main():
     """Main program"""
-    crl_filename = "source/data/www.sk.ee-crl.crl"
+    crl_filename = "www.sk.ee-crl.crl"
     search_serial = 1018438612
 
     print("****** INDEXING CRL:", crl_filename)
@@ -147,7 +147,7 @@ def main():
     print()
     print()
 
-    crl_filename = "source/data/www.sk.ee-esteid2011.crl"
+    crl_filename = "www.sk.ee-esteid2011.crl"
     search_serial = 131917818486436565990004418739006228479
 
     print("****** INDEXING CRL:", crl_filename)
