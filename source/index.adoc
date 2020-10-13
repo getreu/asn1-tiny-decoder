@@ -113,7 +113,7 @@ length Bytes and value Bytes in one string.
 
 NOTE: All data is returned in raw format exactly as it is stored in the
 ASN.1 chunk. You need to convert it yourself.
-footnote:[The most commonly used converters `bitstr_to_bytestr()`
+footnote:[The most commonly used converters `bitstr_to_bytes()`
 and `bytestr_to_int` are provided by 
 link:https://blog.getreu.net/_downloads/asn1-tiny-decoder.zip[`asn1tinydecoder.py`].]
 

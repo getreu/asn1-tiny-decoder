@@ -21,7 +21,7 @@ from asn1tinydecoder import (
     asn1_read_length,
     asn1_node_is_child_of,
     bytestr_to_int,
-    bitstr_to_bytestr,
+    bitstr_to_bytes,
 )
 
 
@@ -91,7 +91,7 @@ def extract_crl_info(crl_der):
     # advance 1 item (signature)
     i = asn1_node_next(crl_der, i)
     # content is crl_signature
-    crl_signature = bitstr_to_bytestr(asn1_get_value_of_type(crl_der, i, "BIT STRING"))
+    crl_signature = bitstr_to_bytes(asn1_get_value_of_type(crl_der, i, "BIT STRING"))
 
     return (
         crl_not_valid_before,
@@ -135,7 +135,7 @@ def search_certificate(crl_der, serial, dictionary):
 
 def main():
     """Main program"""
-    crl_filename = "www.sk.ee-crl.crl"
+    crl_filename = "source/data/www.sk.ee-crl.crl"
     search_serial = 1018438612
 
     print("****** INDEXING CRL:", crl_filename)
@@ -147,7 +147,7 @@ def main():
     print()
     print()
 
-    crl_filename = "www.sk.ee-esteid2011.crl"
+    crl_filename = "source/data/www.sk.ee-esteid2011.crl"
     search_serial = 131917818486436565990004418739006228479
 
     print("****** INDEXING CRL:", crl_filename)
