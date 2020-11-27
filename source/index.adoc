@@ -15,9 +15,10 @@ Another widely used library for encoding and decoding ASN.1 in python is
 http://pyasn1.sourceforge.net/[Pyasn1 ].  This implementation covers many
 aspects of ASN.1, but the API is very complex and hard to learn.  Furthermore
 Pyasn1 is not designed to parse large files.  This why I wrote this tiny ASN.1
-decoder.  It's design goal was to be as fast as possible (with Python 2).
-footnote:[Python 3 would have been a better choice for `asn1tinedecoder` because
-of its `bytes` type. Any volunteer to port to Python 3?]
+decoder.  It's design goal was to be as fast as possible (the original
+version was implemented in Python 2, then ported to the present version for 
+Python 3).
+
 
 A practical application can be found in 
 <<Search serial in large certificate revocation lists>>:
