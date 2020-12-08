@@ -89,16 +89,20 @@ def asn1_get_all(der, indices):
 
 
 # HELPER FUNCTIONS
-def bitstr_to_bytes(bitstr):
-    """converts bitstring to bytes"""
+def bitstr_to_bytestr(bitstr):
+    """converter"""
     if bitstr[0] != 0x00:
         raise ValueError("Error: only 00 padded bitstr can be converted to bytestr!")
     return bitstr[1:]
 
 
 def bytestr_to_int(s):
-    """converts bytes to integer"""
-    return int.from_bytes(s, byteorder="big")
+    """converts bytestring to integer"""
+    i = 0
+    for char in s:
+        i <<= 8
+        i |= char
+    return i
 
 
 def asn1_read_length(der, ix):
@@ -107,7 +111,7 @@ def asn1_read_length(der, ix):
     Returns first byte pointer, first content byte pointer and last.
     """
     first = der[ix + 1]
-    if der[ix + 1] & 0x80 == 0:
+    if (der[ix + 1] & 0x80) == 0:
         length = first
         ix_first_content_byte = ix + 2
         ix_last_content_byte = ix_first_content_byte + length - 1
