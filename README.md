@@ -18,4 +18,4 @@ This show case program creates an index allowing fast search in big ASN.1 data
 structures.
 
 The source code is hosted on
-[Github](https://github.com/getreu/asn1-tiny-decoder).
+[Gitlab](https://gitlab.com/getreu/asn1-tiny-decoder).
