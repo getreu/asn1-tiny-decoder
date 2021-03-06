@@ -8,7 +8,8 @@ This code illustrates the usage of asn1decoder
 # Author: Jens Getreu, 8.11.2014, Version 1.0
 # Please install also dumpasn1 package with you package manager!
 
-import datetime
+from datetime import datetime
+from typing import Tuple, Dict
 from subprocess import Popen, PIPE, STDOUT  # for debugging only
 
 from asn1tinydecoder import (
@@ -21,11 +22,10 @@ from asn1tinydecoder import (
     asn1_read_length,
     asn1_node_is_child_of,
     bytestr_to_int,
-    bitstr_to_bytes,
 )
 
 
-def dump_asn1(der):
+def dump_asn1(der: bytes) -> str:
     """
     Install dumpasn1 package to make this work.
     For debugging only, prints ASN1 structures nicely.
@@ -35,7 +35,7 @@ def dump_asn1(der):
     return dump.decode()
 
 
-def extract_crl_info(crl_der):
+def extract_crl_info(crl_der: bytes) -> Tuple[datetime, datetime, bytes, Tuple[int, int, int], Dict[int, Tuple[int, int, int]]]:
     """
     This function extracts some header fields of the CRL list
     and stores pointers to the list entries in a dictionary
@@ -55,11 +55,11 @@ def extract_crl_info(crl_der):
     # advance 1 item
     i = asn1_node_next(crl_der, i)
     bytestr = asn1_get_value_of_type(crl_der, i, "UTCTime")
-    crl_not_valid_before = datetime.datetime.strptime(bytestr.decode(), "%y%m%d%H%M%SZ")
+    crl_not_valid_before = datetime.strptime(bytestr.decode("utf8"), "%y%m%d%H%M%SZ")
     # advance 1 item
     i = asn1_node_next(crl_der, i)
     bytestr = asn1_get_value_of_type(crl_der, i, "UTCTime")
-    crl_not_valid_after = datetime.datetime.strptime(bytestr.decode(), "%y%m%d%H%M%SZ")
+    crl_not_valid_after = datetime.strptime(bytestr.decode("utf8"), "%y%m%d%H%M%SZ")
 
     # advance 1 item (the list)
     i = asn1_node_next(crl_der, i)
@@ -91,7 +91,10 @@ def extract_crl_info(crl_der):
     # advance 1 item (signature)
     i = asn1_node_next(crl_der, i)
     # content is crl_signature
-    crl_signature = bitstr_to_bytes(asn1_get_value_of_type(crl_der, i, "BIT STRING"))
+    crl_signature = asn1_get_value_of_type(crl_der, i, "BIT STRING")
+    if crl_signature[0] != 0x00:
+        raise ValueError("Error: CRL signature should start with 0x00 padding!")
+    crl_signature = crl_signature[1:]
 
     return (
         crl_not_valid_before,
@@ -102,7 +105,13 @@ def extract_crl_info(crl_der):
     )
 
 
-def search_certificate(crl_der, serial, dictionary):
+def search_certificate(
+    crl_der: bytes,
+    serial: int,
+    dictionary: Tuple[
+        datetime, datetime, bytes, Tuple[int, int, int], Dict[int, Tuple[int, int, int]]
+    ],
+) -> None:
     """Print the header fields and the dictionary"""
     a, b, c, d, serials_idx = dictionary
     print("*** Some information about the CRL")
@@ -115,8 +124,8 @@ def search_certificate(crl_der, serial, dictionary):
     print()
     print("*** The CRL lists", len(serials_idx), "certificates.")
     if len(serials_idx) <= 10:
-        for c, p in serials_idx.items():
-            print("serial: ", c, "  position:", p)
+        for s, p in serials_idx.items():
+            print("serial: ", s, "  position:", p)
     print()
 
     print("*** Search in CRL for serial no:", serial)

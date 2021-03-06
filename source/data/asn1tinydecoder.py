@@ -12,19 +12,21 @@ functions allowing you to navigate:
 
 # The following 4 functions are all you need to parse an ASN1 structure
 
+from typing import Tuple
 
-def asn1_node_root(der):
+
+def asn1_node_root(der: bytes) -> Tuple[int, int, int]:
     """gets the first ASN1 structure in der"""
     return asn1_read_length(der, 0)
 
 
-def asn1_node_next(der, indices):
+def asn1_node_next(der: bytes, indices: Tuple[int, int, int]) -> Tuple[int, int, int]:
     """gets the next ASN1 structure following (ixs,ixf,ixl)"""
     ixs, ixf, ixl = indices
     return asn1_read_length(der, ixl + 1)
 
 
-def asn1_node_first_child(der, indices):
+def asn1_node_first_child(der: bytes, indices: Tuple[int, int, int]) -> Tuple[int, int, int]:
     """opens the container (ixs,ixf,ixl) and returns the first ASN1 inside"""
     ixs, ixf, ixl = indices
     if der[ixs] & 0x20 != 0x20:
@@ -34,7 +36,7 @@ def asn1_node_first_child(der, indices):
     return asn1_read_length(der, ixf)
 
 
-def asn1_node_is_child_of(i_indices, j_indices):
+def asn1_node_is_child_of(i_indices: Tuple[int, int, int], j_indices: Tuple[int, int, int]) -> bool:
     """is true if one ASN1 chunk is inside another chunk."""
     ixs, ixf, ixl = i_indices
     jxs, jxf, jxl = j_indices
@@ -45,7 +47,7 @@ def asn1_node_is_child_of(i_indices, j_indices):
 
 
 # ACCESS PRIMITIVES
-def asn1_get_value_of_type(der, indices, asn1_type):
+def asn1_get_value_of_type(der: bytes, indices: Tuple[int, int, int], asn1_type: str) -> bytes:
     """get content and verify type byte"""
     ixs, ixf, ixl = indices
     asn1_type_table = {
@@ -73,13 +75,13 @@ def asn1_get_value_of_type(der, indices, asn1_type):
     return der[ixf : ixl + 1]
 
 
-def asn1_get_value(der, indices):
+def asn1_get_value(der: bytes, indices: Tuple[int, int, int]) -> bytes:
     """get value"""
     ixs, ixf, ixl = indices
     return der[ixf : ixl + 1]
 
 
-def asn1_get_all(der, indices):
+def asn1_get_all(der: bytes, indices: Tuple[int, int, int]) -> bytes:
     """get type+length+value"""
     ixs, ixf, ixl = indices
     return der[ixs : ixl + 1]
@@ -89,25 +91,24 @@ def asn1_get_all(der, indices):
 
 
 # HELPER FUNCTIONS
-def bitstr_to_bytes(bitstr):
-    """converts bitstring to bytes"""
-    if bitstr[0] != 0x00:
-        raise ValueError("Error: only 00 padded bitstr can be converted to bytestr!")
-    return bitstr[1:]
 
 
-def bytestr_to_int(s):
+def bytestr_to_int(s: bytes) -> int:
     """converts bytes to integer"""
-    return int.from_bytes(s, byteorder="big")
+    i = 0
+    for char in s:
+        i <<= 8
+        i |= char
+    return i
 
 
-def asn1_read_length(der, ix):
+def asn1_read_length(der: bytes, ix: int) -> Tuple[int, int, int]:
     """
     ix points to the first byte of the asn1 structure
     Returns first byte pointer, first content byte pointer and last.
     """
     first = der[ix + 1]
-    if der[ix + 1] & 0x80 == 0:
+    if (der[ix + 1] & 0x80) == 0:
         length = first
         ix_first_content_byte = ix + 2
         ix_last_content_byte = ix_first_content_byte + length - 1
